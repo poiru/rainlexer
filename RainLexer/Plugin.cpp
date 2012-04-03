@@ -25,6 +25,22 @@ HWND g_RainmeterWindow = nullptr;
 HWND g_NppWindow = nullptr;
 std::wstring g_SkinsPath;
 
+LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	if (uMsg == WM_COPYDATA)
+	{
+		COPYDATASTRUCT* cds = (COPYDATASTRUCT*)lParam;
+		if (cds->dwData == RAINMETER_QUERY_ID_SKINS_PATH)
+		{
+			g_SkinsPath = (WCHAR*)cds->lpData;
+		}
+
+		return TRUE;
+	}
+
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
+
 bool GetRainmeter()
 {
 	if (!g_RainmeterWindow || !IsWindow(g_RainmeterWindow))
@@ -33,7 +49,6 @@ bool GetRainmeter()
 		HWND meterWindow = FindWindow(L"RainmeterMeterWindow", nullptr);
 		if (trayWindow && meterWindow)
 		{
-
 			// Create window to recieve WM_COPYDATA from Rainmeter
 			HWND wnd = CreateWindow(
 				L"STATIC",
@@ -46,13 +61,18 @@ bool GetRainmeter()
 				nullptr,
 				nullptr);
 
-			SendMessage(trayWindow, WM_QUERY_RAINMETER, RAINMETER_QUERY_ID_SKINS_PATH, (LPARAM)wnd);
-			DestroyWindow(wnd);
-
-			if (!g_SkinsPath.empty())
+			if (wnd)
 			{
-				g_RainmeterWindow = meterWindow;
-				return true;
+				SetWindowLongPtr(wnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
+
+				SendMessage(trayWindow, WM_QUERY_RAINMETER, RAINMETER_QUERY_ID_SKINS_PATH, (LPARAM)wnd);
+				DestroyWindow(wnd);
+
+				if (!g_SkinsPath.empty())
+				{
+					g_RainmeterWindow = meterWindow;
+					return true;
+				}
 			}
 		}
 	}
@@ -118,22 +138,6 @@ void About()
 		L"github.com/poiru/rainlexer",
 		L"RainLexer 1.1.1",
 		MB_OK);
-}
-
-LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	if (uMsg == WM_COPYDATA)
-	{
-		COPYDATASTRUCT* cds = (COPYDATASTRUCT*)lParam;
-		if (cds->dwData == RAINMETER_QUERY_ID_SKINS_PATH)
-		{
-			g_SkinsPath = _wcsdup((WCHAR*)cds->lpData);
-		}
-
-		return TRUE;
-	}
-
-	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
 // Notepad++ exports
