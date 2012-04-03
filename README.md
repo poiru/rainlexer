@@ -1,4 +1,4 @@
-RainLexer adds syntax highlighting support for Rainmeter .ini configuration files to Notepad++.
+RainLexer adds syntax highlighting support for Rainmeter .ini configuration files to Notepad++. To download RainLexer, follow the [installation instructions](http://poiru.github.com/rainlexer).
 
 To build RainLexer, get the Notepad++ source distribution and place the `rainlexer` directory alongside the `PowerEditor` and `scintilla` directories. Then, open `rainlexer\RainLexer.sln` with Visual Studio 2010 to build.
 
