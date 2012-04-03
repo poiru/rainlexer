@@ -135,7 +135,7 @@ void About()
 	MessageBox(
 		g_NppWindow,
 		L"By Birunthan Mohanathas.\n"
-		L"github.com/poiru/rainlexer",
+		L"poiru.github.com/rainlexer",
 		L"RainLexer 1.1.1",
 		MB_OK);
 }
