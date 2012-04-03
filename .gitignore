@@ -1,0 +1,10 @@
+/ipch
+Debug
+Release
+*.docstates
+*.exe
+*.opensdf
+*.sdf
+*.suo
+*.txt
+*.user
