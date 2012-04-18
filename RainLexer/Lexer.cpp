@@ -83,7 +83,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 	for (int i = startPos; i < length; ++i)
 	{
 		// Make ch 0 if at EOF
-		ch = (i == length - 1) ? 0 : styler[i];
+		ch = (i == length - 1) ? '\0' : styler[i];
 
 		// Amount of EOL chars is 2 (\r\n) with the Windows format and 1 (\n) with Unix format.
 		chEOL = (styler[i] == '\n' && styler[i - 1] == '\r') ? 2 : 1;
@@ -93,7 +93,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 		case TS_DEFAULT:
 			switch (ch)
 			{
-			case 0:
+			case '\0':
 			case '\n':
 				styler.ColourTo(i, TC_DEFAULT);
 				break;
@@ -129,7 +129,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 			// Style as comment when EOL (or EOF) is reached
 			switch (ch)
 			{
-			case 0:
+			case '\0':
 			case '\n':
 				state = TS_DEFAULT;
 				styler.ColourTo(i - chEOL, TC_COMMENT);
@@ -141,7 +141,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 			// Style as section when EOL (or EOF) is reached unless section name has a space
 			switch (ch)
 			{
-			case 0:
+			case '\0':
 			case '\n':
 				state = TS_DEFAULT;
 				styler.ColourTo(i - chEOL, TC_SECTION);
@@ -153,7 +153,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 			// Read max. 32 chars into buffer until the equals sign (or EOF/EOL) is met.
 			switch (ch)
 			{
-			case 0:
+			case '\0':
 			case '\n':
 				state = TS_DEFAULT;
 				styler.ColourTo(i, TC_DEFAULT);
@@ -231,7 +231,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 				state = TS_VARIABLE;
 				break;
 
-			case 0:
+			case '\0':
 				// Read the last character if at EOF
 				buffer[count++] = tolower(styler[i++]);
 
@@ -285,7 +285,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 				state = TS_BANG;
 				break;
 
-			case 0:
+			case '\0':
 			case '\n':
 				state = TS_DEFAULT;
 				styler.ColourTo(i, TC_DEFAULT);
@@ -296,7 +296,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 			// Highlight bangs
 			switch (ch)
 			{
-			case 0:
+			case '\0':
 				buffer[count++] = tolower(styler[i++]);
 
 			case '\n':
@@ -345,7 +345,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 				styler.ColourTo(i, TC_DEFAULT);
 				break;
 
-			case 0:
+			case '\0':
 			case '#':
 				if (count)
 				{
@@ -395,7 +395,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 			// Apply default style when EOL (or EOF) is reached
 			switch (ch)
 			{
-			case 0:
+			case '\0':
 			case '\n':
 				state = TS_DEFAULT;
 				styler.ColourTo(i, TC_DEFAULT);
