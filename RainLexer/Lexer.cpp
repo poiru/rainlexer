@@ -408,21 +408,22 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 void RainLexer::Folder(unsigned int startPos, int length, int, Accessor& styler)
 {
 	length += startPos;
-
 	int line = styler.GetLine(startPos);
 
-	for (unsigned int i = startPos, isize = (unsigned int)length; i < isize; ++i, ++line)
+	for (unsigned int i = startPos, isize = (unsigned int)length; i < isize; ++i)
 	{
 		if ((styler[i] == '\n') || (i == length - 1))
 		{
-			int lev = (styler.StyleAt(i - 2) == TS_SECTION)
+			int level = (styler.StyleAt(i - 2) == TS_SECTION)
 				? SC_FOLDLEVELBASE | SC_FOLDLEVELHEADERFLAG
 				: SC_FOLDLEVELBASE + 1;
 
-			if (lev != styler.LevelAt(line))
+			if (level != styler.LevelAt(line))
 			{
-				styler.SetLevel(line, lev);
+				styler.SetLevel(line, level);
 			}
+
+			++line;
 		}
 	}
 }
