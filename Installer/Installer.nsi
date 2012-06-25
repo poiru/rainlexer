@@ -32,7 +32,7 @@ VIAddVersionKey "FileVersion" "${VERSION}"
 VIProductVersion "${VERSION}.0"
 BrandingText " "
 SetCompressor /FINAL /SOLID lzma
-OutFile "Installer.exe"
+OutFile "RainLexer-${VERSION}.exe"
 Icon ".\Icon.ico"
 CRCCheck force
 RequestExecutionLevel user
