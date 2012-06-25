@@ -428,7 +428,9 @@ void RainLexer::Folder(unsigned int startPos, int length, int, Accessor& styler)
 	}
 }
 
+//
 // Scintilla exports
+//
 
 int SCI_METHOD GetLexerCount()
 {
@@ -447,5 +449,5 @@ void SCI_METHOD GetLexerStatusText(unsigned int index, WCHAR* desc, int buflengt
 
 LexerFactoryFunction SCI_METHOD GetLexerFactory(unsigned int index)
 {
-	return (index == 0) ? RainLexer::LexerFactory : 0;
+	return (index == 0) ? RainLexer::LexerFactory : nullptr;
 }

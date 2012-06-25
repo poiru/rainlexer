@@ -140,7 +140,9 @@ void About()
 		MB_OK);
 }
 
+//
 // Notepad++ exports
+//
 
 BOOL isUnicode()
 {
