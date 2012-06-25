@@ -18,6 +18,9 @@
 #include "StdAfx.h"
 #include "Lexer.h"
 
+namespace RainLexer
+{
+
 ILexer* RainLexer::LexerFactory()
 {
 	try
@@ -451,3 +454,5 @@ LexerFactoryFunction SCI_METHOD GetLexerFactory(unsigned int index)
 {
 	return (index == 0) ? RainLexer::LexerFactory : nullptr;
 }
+
+}	// namespace RainLexer

@@ -18,6 +18,9 @@
 #include "StdAfx.h"
 #include "PluginInterface.h"
 
+namespace RainLexer
+{
+
 const int WM_QUERY_RAINMETER = WM_APP + 1000;
 const int RAINMETER_QUERY_ID_SKINS_PATH = 4101;
 
@@ -181,3 +184,5 @@ LRESULT messageProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	return TRUE;
 }
+
+}	// namespace RainLexer

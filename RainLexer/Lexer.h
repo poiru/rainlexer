@@ -29,6 +29,9 @@
 #include "StyleContext.h"
 #include "CharacterSet.h"
 
+namespace RainLexer
+{
+
 class RainLexer :
 	public LexerBase
 {
@@ -71,5 +74,7 @@ private:
 	static void Lexer(unsigned int startPos, int length, int initStyle, WordList* keywordlists[], Accessor& styler);
 	static void Folder(unsigned int startPos, int length, int initStyle, Accessor& styler);
 };
+
+}	// namespace RainLexer
 
 #endif
