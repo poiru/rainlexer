@@ -22,7 +22,7 @@
 !include "WordFunc.nsh"
 !include "UAC.nsh"
 
-!define VERSION "1.1.1"
+!define VERSION "1.1.2"
 
 Name "RainLexer ${VERSION}"
 VIAddVersionKey "ProductName" "RainLexer ${VERSION}"
@@ -226,7 +226,7 @@ UAC_TryAgain:
 FunctionEnd
 
 Function .onInstSuccess
-	; Open Notepad++ as user
+	; Open Notepad++ through the user instance
 	!insertmacro UAC_AsUser_Call Function OpenNpp ${UAC_SYNCREGISTERS}
 FunctionEnd
 
