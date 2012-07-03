@@ -48,6 +48,8 @@ Var NppConfigPath
 Var NppExeFile
 Var NppThemeName
 
+Var ResetStyleSettings
+
 !macro DecalareStyleVariables Key
 	Var ${Key}fgColor
 	Var ${Key}bgColor
@@ -116,10 +118,11 @@ retry:
 		${EndIf}
 	${Else}
 		; Exchange variables with user instance.
-		!insertmacro UAC_AsUser_Call Function ExchangeVariables ${UAC_SYNCREGISTERS}	
+		!insertmacro UAC_AsUser_Call Function ExchangeVariables ${UAC_SYNCREGISTERS}
 		StrCpy $NppPath $1
 		StrCpy $NppConfigPath $2
 		StrCpy $NppExeFile $3
+		StrCpy $ResetStyleSettings $4
 	${EndIf}
 FunctionEnd
 
@@ -127,6 +130,7 @@ Function ExchangeVariables
 	StrCpy $1 $NppPath
 	StrCpy $2 $NppConfigPath
 	StrCpy $3 $NppExeFile
+	StrCpy $4 $ResetStyleSettings
 	HideWindow
 FunctionEnd
 
@@ -159,6 +163,9 @@ Function PageOptions
 	${NSD_CreateBrowseButton} 210u 55u 50u 13u "Browse..."
 	Pop $0
 	${NSD_OnClick} $0 BrowseForNppExe
+
+	${NSD_CreateCheckbox} 6u 82u 285u 12u "Reset style settings"
+	Pop $R2
 
 	${If} $NppPath == ""
 		; Disable Install button.
@@ -209,6 +216,8 @@ Function PageOptionsOnLeave
 		MessageBox MB_OK|MB_ICONSTOP "Notepad++ 6.0.0 or higher is required to install RainLexer. Try again after installing the latest version of Notepad++."
 		Quit
 	${EndIf}
+
+	${NSD_GetState} $R2 $ResetStyleSettings
 
 	; Test if $NppPath is writable. If not, try to elevate.
 	ClearErrors
@@ -276,7 +285,8 @@ Section
 	File "..\Release\RainLexer.dll"
 
 	SetOutPath "$NppConfigPath\plugins\config"
-	${If} ${FileExists} "$NppConfigPath\plugins\config\RainLexer.xml"
+	${If} $ResetStyleSettings <> 1
+	${AndIf} ${FileExists} "$NppConfigPath\plugins\config\RainLexer.xml"
 		XML::load "$NppConfigPath\plugins\config\RainLexer.xml"
 
 		; For backwards compatibility
