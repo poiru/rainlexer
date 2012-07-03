@@ -40,40 +40,55 @@ ShowInstDetails nevershow
 AllowSkipFiles off
 XPStyle on
 
+Page custom PageOptions PageOptionsOnLeave
+Page InstFiles
+
 Var NppPath
 Var NppConfigPath
 Var NppExeFile
 Var NppThemeName
 
-Page custom PageOptions PageOptionsOnLeave
-Page InstFiles
+!macro DecalareStyleVariables Key
+	Var ${Key}fgColor
+	Var ${Key}bgColor
+	Var ${Key}fontName
+	Var ${Key}fontStyle
+	Var ${Key}fontSize
+!macroend
+!define DecalareStyleVariables "!insertmacro DecalareStyleVariables"
 
-!macro ReadXML Key Name
-	Var /GLOBAL ${Key}fgColor
-	Var /GLOBAL ${Key}bgColor
-	Var /GLOBAL ${Key}fontName
-	Var /GLOBAL ${Key}fontStyle
-	Var /GLOBAL ${Key}fontSize
-	XML::select "//WordsStyle[@name='${Name}']"
-	${If} $2 != "0"
-		XML::getAttribute "fgColor"
-		StrCpy "$${Key}fgColor" $3
-		XML::getAttribute "bgColor"
-		StrCpy "$${Key}bgColor" $3
-		XML::getAttribute "fontName"
-		StrCpy "$${Key}fontName" $3
-		XML::getAttribute "fontStyle"
-		StrCpy "$${Key}fontStyle" $3
-		XML::getAttribute "fontSize"
-		StrCpy "$${Key}fontSize" $3
-	${Else}
-		StrCpy "$${Key}fgColor" "ERROR"
+${DecalareStyleVariables} "DEFAULT"
+${DecalareStyleVariables} "COMMENT"
+${DecalareStyleVariables} "SECTION"
+${DecalareStyleVariables} "OPTION"
+${DecalareStyleVariables} "EQUALS"
+${DecalareStyleVariables} "INVALID_VALUE"
+${DecalareStyleVariables} "VALUE"
+${DecalareStyleVariables} "BANG"
+${DecalareStyleVariables} "VARIABLE"
+${DecalareStyleVariables} "USER_VARIABLE"
+
+!macro ReadStyleVariables Key Name
+	${If} "$${Key}fgColor" == ""
+		XML::select "//WordsStyle[@name='${Name}']"
+		${If} $2 != "0"
+			XML::getAttribute "fgColor"
+			StrCpy "$${Key}fgColor" $3
+			XML::getAttribute "bgColor"
+			StrCpy "$${Key}bgColor" $3
+			XML::getAttribute "fontName"
+			StrCpy "$${Key}fontName" $3
+			XML::getAttribute "fontStyle"
+			StrCpy "$${Key}fontStyle" $3
+			XML::getAttribute "fontSize"
+			StrCpy "$${Key}fontSize" $3
+		${EndIf}
 	${EndIf}
 !macroend
-!define ReadXML "!insertmacro ReadXML"
+!define ReadStyleVariables "!insertmacro ReadStyleVariables"
 
-!macro WriteXML Key Name
-	${If} "$${Key}fgColor" != "ERROR"
+!macro WriteStyleVariables Key Name
+	${If} "$${Key}fgColor" != ""
 		XML::select "//WordsStyle[@name='${Name}']"
 		StrCmp "$${Key}fgColor" "" +2 0
 		XML::setAttribute "fgColor" "$${Key}fgColor"
@@ -87,7 +102,7 @@ Page InstFiles
 		XML::setAttribute "fontSize" "$${Key}fontSize"
 	${EndIf}
 !macroend
-!define WriteXML "!insertmacro WriteXML"
+!define WriteStyleVariables "!insertmacro WriteStyleVariables"
 
 Function .onInit
 	${IfNot} ${UAC_IsInnerInstance}
@@ -263,16 +278,24 @@ Section
 	SetOutPath "$NppConfigPath\plugins\config"
 	${If} ${FileExists} "$NppConfigPath\plugins\config\RainLexer.xml"
 		XML::load "$NppConfigPath\plugins\config\RainLexer.xml"
-		${ReadXML} "DEFAULT" "DEFAULT"
-		${ReadXML} "COMMENT" "COMMENT"
-		${ReadXML} "SECTION" "SECTION"
-		${ReadXML} "KEYWORD" "KEYWORD"
-		${ReadXML} "EQUALS" "EQUALS"
-		${ReadXML} "INVOPT" "INVALID OPTION"
-		${ReadXML} "VALOPT" "VALID OPTION"
-		${ReadXML} "BANG" "BANG"
-		${ReadXML} "INTVAR" "INT VARIABLE"
-		${ReadXML} "EXTVAR" "EXT VARIABLE"
+
+		; For backwards compatibility
+		${ReadStyleVariables} "OPTION" "KEYWORD"
+		${ReadStyleVariables} "VALUE" "VALID OPTION"
+		${ReadStyleVariables} "INVALID_VALUE" "INVALID OPTION"
+		${ReadStyleVariables} "VARIABLE" "INT VARIABLE"
+		${ReadStyleVariables} "USER_VARIABLE" "EXT VARIABLE"
+
+		${ReadStyleVariables} "DEFAULT" "DEFAULT"
+		${ReadStyleVariables} "COMMENT" "COMMENT"
+		${ReadStyleVariables} "SECTION" "SECTION"
+		${ReadStyleVariables} "OPTION" "OPTION"
+		${ReadStyleVariables} "EQUALS" "EQUALS"
+		${ReadStyleVariables} "INVALID_VALUE" "INVALID VALUE"
+		${ReadStyleVariables} "VALUE" "VALUE"
+		${ReadStyleVariables} "BANG" "BANG"
+		${ReadStyleVariables} "VARIABLE" "VARIABLE"
+		${ReadStyleVariables} "USER_VARIABLE" "USER VARIABLE"
 
 		${If} $NppThemeName == "Zenburn.xml"
 			File "..\Config\Zenburn\RainLexer.xml"
@@ -281,16 +304,16 @@ Section
 		${EndIf}
 
 		XML::load "$NppConfigPath\plugins\config\RainLexer.xml"
-		${WriteXML} "DEFAULT" "DEFAULT"
-		${WriteXML} "COMMENT" "COMMENT"
-		${WriteXML} "SECTION" "SECTION"
-		${WriteXML} "KEYWORD" "KEYWORD"
-		${WriteXML} "EQUALS" "EQUALS"
-		${WriteXML} "INVOPT" "INVALID OPTION"
-		${WriteXML} "VALOPT" "VALID OPTION"
-		${WriteXML} "BANG" "BANG"
-		${WriteXML} "INTVAR" "INT VARIABLE"
-		${WriteXML} "EXTVAR" "EXT VARIABLE"
+		${WriteStyleVariables} "DEFAULT" "DEFAULT"
+		${WriteStyleVariables} "COMMENT" "COMMENT"
+		${WriteStyleVariables} "SECTION" "SECTION"
+		${WriteStyleVariables} "OPTION" "OPTION"
+		${WriteStyleVariables} "EQUALS" "EQUALS"
+		${WriteStyleVariables} "INVALID_VALUE" "INVALID VALUE"
+		${WriteStyleVariables} "VALUE" "VALUE"
+		${WriteStyleVariables} "BANG" "BANG"
+		${WriteStyleVariables} "VARIABLE" "VARIABLE"
+		${WriteStyleVariables} "USER_VARIABLE" "USER VARIABLE"
 		XML::save "$NppConfigPath\plugins\config\RainLexer.xml"
 	${Else}
 		${If} $NppThemeName == "Zenburn.xml"
