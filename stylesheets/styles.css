@@ -183,7 +183,12 @@ footer {
   width:270px;
   float:left;
   position:fixed;
+  font-size:12px;
   bottom:50px;
+}
+
+footer p {
+  margin-bottom: 8px;
 }
 
 @media print, screen and (max-width: 960px) {
