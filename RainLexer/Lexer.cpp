@@ -67,17 +67,17 @@ void SCI_METHOD RainLexer::Fold(unsigned int startPos, int length, int initStyle
 void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList* keywordlists[], Accessor& styler)
 {
 	char ch;
-	char buffer[33];
+	char buffer[128];
 	char* name = nullptr;
 	int count, digits, chEOL;
 	length += startPos;
 
-	WordList& keywords = *keywordlists[0];
-	WordList& numwords = *keywordlists[1];
-	WordList& optwords = *keywordlists[2];
-	WordList& options = *keywordlists[3];
-	WordList& bangs = *keywordlists[4];
-	WordList& variables = *keywordlists[5];
+	const WordList& keywords = *keywordlists[0];
+	const WordList& numwords = *keywordlists[1];
+	const WordList& optwords = *keywordlists[2];
+	const WordList& options = *keywordlists[3];
+	const WordList& bangs = *keywordlists[4];
+	const WordList& variables = *keywordlists[5];
 
 	int state = TS_DEFAULT;
 	styler.StartAt(startPos);
@@ -209,7 +209,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 				break;
 
 			default:
-				if (count < 32)
+				if (count < _countof(buffer))
 				{
 					if (isdigit(ch))
 					{
@@ -261,7 +261,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 				break;
 
 			default:
-				if (count < 32)
+				if (count < _countof(buffer))
 				{
 					buffer[count++] = tolower(ch);
 				}
@@ -328,7 +328,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 				break;
 
 			default:
-				if (count < 32)
+				if (count < _countof(buffer))
 				{
 					buffer[count++] = tolower(ch);
 				}
@@ -383,7 +383,7 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 				break;
 
 			default:
-				if (count < 32)
+				if (count < _countof(buffer))
 				{
 					buffer[count++] = tolower(ch);
 				}
