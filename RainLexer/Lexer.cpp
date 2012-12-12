@@ -66,12 +66,7 @@ void SCI_METHOD RainLexer::Fold(unsigned int startPos, int length, int initStyle
 
 void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList* keywordlists[], Accessor& styler)
 {
-	char ch;
 	char buffer[128];
-	char* name = nullptr;
-	int count, digits, chEOL;
-	length += startPos;
-
 	const WordList& keywords = *keywordlists[0];
 	const WordList& numwords = *keywordlists[1];
 	const WordList& optwords = *keywordlists[2];
@@ -79,17 +74,21 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 	const WordList& bangs = *keywordlists[4];
 	const WordList& variables = *keywordlists[5];
 
-	int state = TS_DEFAULT;
+	length += startPos;
 	styler.StartAt(startPos);
 	styler.StartSegment(startPos);
 
+	int state = TS_DEFAULT;
+	char* name = nullptr;
+	int count = 0;
+	int digits = 0;
 	for (int i = startPos; i < length; ++i)
 	{
-		// Make ch 0 if at EOF
-		ch = (i == length - 1) ? '\0' : styler[i];
+		// Make ch 0 if at EOF.
+		char ch = (i == length - 1) ? '\0' : styler[i];
 
 		// Amount of EOL chars is 2 (\r\n) with the Windows format and 1 (\n) with Unix format.
-		chEOL = (styler[i] == '\n' && styler[i - 1] == '\r') ? 2 : 1;
+		int chEOL = (styler[i] == '\n' && styler[i - 1] == '\r') ? 2 : 1;
 
 		switch(state)
 		{
