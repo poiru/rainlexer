@@ -18,8 +18,7 @@
 #include "StdAfx.h"
 #include "PluginInterface.h"
 
-namespace RainLexer
-{
+namespace RainLexer {
 
 const int WM_QUERY_RAINMETER = WM_APP + 1000;
 const int RAINMETER_QUERY_ID_SKINS_PATH = 4101;
@@ -55,7 +54,7 @@ bool GetRainmeter()
 			// Create window to recieve WM_COPYDATA from Rainmeter
 			HWND wnd = CreateWindow(
 				L"STATIC",
-				L"RainLexer",
+				L"",
 				WS_DISABLED,
 				CW_USEDEFAULT, CW_USEDEFAULT,
 				CW_USEDEFAULT, CW_USEDEFAULT,
@@ -96,8 +95,8 @@ void RefreshSkin()
 
 	if (ret)
 	{
-		size_t skinsPathLen = wcslen(g_SkinsPath.c_str());
-		size_t currentPathLen = wcslen(currentPath);
+		const size_t skinsPathLen = g_SkinsPath.length();
+		const size_t currentPathLen = wcslen(currentPath);
 
 		// Make sure the file is in the skins folder and that extension is .ini
 		if (wcsncmp(g_SkinsPath.c_str(), currentPath, skinsPathLen) == 0 &&

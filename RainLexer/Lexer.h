@@ -29,8 +29,7 @@
 #include "StyleContext.h"
 #include "CharacterSet.h"
 
-namespace RainLexer
-{
+namespace RainLexer {
 
 class RainLexer :
 	public LexerBase

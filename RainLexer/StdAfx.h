@@ -23,12 +23,7 @@
 
 #include <Windows.h>
 
-#include <cstdio>
-#include <cstdlib>
 #include <cassert>
-#include <cctype>
-#include <cstring>
-
 #include <string>
 
 #endif

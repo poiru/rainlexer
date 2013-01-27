@@ -18,8 +18,7 @@
 #include "StdAfx.h"
 #include "Lexer.h"
 
-namespace RainLexer
-{
+namespace RainLexer {
 
 ILexer* RainLexer::LexerFactory()
 {
