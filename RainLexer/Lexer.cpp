@@ -22,45 +22,21 @@ namespace RainLexer {
 
 ILexer* RainLexer::LexerFactory()
 {
-	try
-	{
-		return new RainLexer();
-	}
-	catch (...)
-	{
-		// Should not throw into caller as may be compiled with different compiler or options
-		return nullptr;
-	}
+	return new RainLexer();
 }
 
 void SCI_METHOD RainLexer::Lex(unsigned int startPos, int length, int initStyle, IDocument* pAccess)
 {
-	try
-	{
-		Accessor astyler(pAccess, &props);
-		Lexer(startPos, length, initStyle, keyWordLists, astyler);
-		astyler.Flush();
-	}
-	catch (...)
-	{
-		// Should not throw into caller as may be compiled with different compiler or options
-		pAccess->SetErrorStatus(SC_STATUS_FAILURE);
-	}
+	Accessor styler(pAccess, &props);
+	Lexer(startPos, length, initStyle, keyWordLists, styler);
+	styler.Flush();
 }
 
 void SCI_METHOD RainLexer::Fold(unsigned int startPos, int length, int initStyle, IDocument* pAccess)
 {
-	try
-	{
-		Accessor astyler(pAccess, &props);
-		Folder(startPos, length, initStyle, astyler);
-		astyler.Flush();
-	}
-	catch (...)
-	{
-		// Should not throw into caller as may be compiled with different compiler or options
-		pAccess->SetErrorStatus(SC_STATUS_FAILURE);
-	}
+	Accessor styler(pAccess, &props);
+	Folder(startPos, length, initStyle, styler);
+	styler.Flush();
 }
 
 void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList* keywordlists[], Accessor& styler)
