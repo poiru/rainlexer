@@ -6,8 +6,8 @@
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,4,0
- FILEVERSION 1,1,4,0
+ FILEVERSION 1,1,5,0
+ FILEVERSION 1,1,5,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS VS_FF_DEBUG
@@ -22,9 +22,9 @@ VS_VERSION_INFO VERSIONINFO
     {
         BLOCK "040904E4"
         {
-            VALUE "FileVersion", "1.1.4.0"
-            VALUE "LegalCopyright", "© 2012 - Birunthan Mohanathas"
-            VALUE "ProductVersion", "1.1.4.0"
+            VALUE "FileVersion", "1.1.5.0"
+            VALUE "LegalCopyright", "© 2013 - Birunthan Mohanathas"
+            VALUE "ProductVersion", "1.1.5.0"
         }
     }
     BLOCK "VarFileInfo"

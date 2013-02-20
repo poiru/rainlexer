@@ -22,7 +22,7 @@
 !include "WordFunc.nsh"
 !include "UAC.nsh"
 
-!define VERSION "1.1.4"
+!define VERSION "1.1.5"
 
 Name "RainLexer ${VERSION}"
 VIAddVersionKey "ProductName" "RainLexer ${VERSION}"

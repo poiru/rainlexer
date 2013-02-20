@@ -138,7 +138,7 @@ void About()
 		g_NppWindow,
 		L"By Birunthan Mohanathas.\n"
 		L"poiru.github.com/rainlexer",
-		L"RainLexer 1.1.4",
+		L"RainLexer 1.1.5",
 		MB_OK);
 }
 
