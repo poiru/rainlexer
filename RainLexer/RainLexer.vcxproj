@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;RAINLEXER_EXPORTS;_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\scintilla\include;..\..\scintilla\lexlib;..\..\PowerEditor\src\MISC\PluginsManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ThirdParty\Scintilla\include;..\ThirdParty\Scintilla\lexlib;..\ThirdParty\NotepadPlusPlus\src\MISC\PluginsManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
@@ -74,7 +74,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;RAINLEXER_EXPORTS;_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\scintilla\include;..\..\scintilla\lexlib;..\..\PowerEditor\src\MISC\PluginsManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ThirdParty\Scintilla\include;..\ThirdParty\Scintilla\lexlib;..\ThirdParty\NotepadPlusPlus;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
@@ -88,12 +88,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\scintilla\lexlib\Accessor.cxx" />
-    <ClCompile Include="..\..\scintilla\lexlib\LexerBase.cxx" />
-    <ClCompile Include="..\..\scintilla\lexlib\LexerModule.cxx" />
-    <ClCompile Include="..\..\scintilla\lexlib\LexerSimple.cxx" />
-    <ClCompile Include="..\..\scintilla\lexlib\PropSetSimple.cxx" />
-    <ClCompile Include="..\..\scintilla\lexlib\WordList.cxx" />
+    <ClCompile Include="..\ThirdParty\Scintilla\lexlib\Accessor.cxx" />
+    <ClCompile Include="..\ThirdParty\Scintilla\lexlib\LexerBase.cxx" />
+    <ClCompile Include="..\ThirdParty\Scintilla\lexlib\LexerModule.cxx" />
+    <ClCompile Include="..\ThirdParty\Scintilla\lexlib\LexerSimple.cxx" />
+    <ClCompile Include="..\ThirdParty\Scintilla\lexlib\PropSetSimple.cxx" />
+    <ClCompile Include="..\ThirdParty\Scintilla\lexlib\WordList.cxx" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="Plugin.cpp" />
     <ClCompile Include="StdAfx.cpp" />
