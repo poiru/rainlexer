@@ -22,15 +22,22 @@ set MSBUILD="msbuild.exe" /nologo^
 if exist "Certificate.bat" call "Certificate.bat" > nul
 set SIGNTOOL="signtool.exe" sign /t http://time.certum.pl /f "%CERTFILE%" /p "%CERTKEY%"
 
-:: Update Version.h
+:: Update Version.h.
 > "..\RainLexer\Version.h" echo #pragma once
 >>"..\RainLexer\Version.h" echo #define RAINLEXER_VERSION_RC %VERSION_MAJOR%,%VERSION_MINOR%,%VERSION_SUBMINOR%,0
 >>"..\RainLexer\Version.h" echo #define RAINLEXER_VERSION_STRING "%VERSION_MAJOR%.%VERSION_MINOR%.%VERSION_SUBMINOR%.0"
 >>"..\RainLexer\Version.h" echo #define RAINLEXER_TITLE L"RainLexer %VERSION_MAJOR%.%VERSION_MINOR%.%VERSION_SUBMINOR%"
 
-echo * Building RainLexer
+echo * Building RainLexer.
 %MSBUILD% /t:rebuild /p:Platform=Win32 /v:q /m ..\RainLexer.sln
 if not %ERRORLEVEL% == 0 echo   ERROR %ERRORLEVEL%: Build failed & goto END
+
+:: Sign installer.
+if not "%CERTFILE%" == "" (
+	echo * Signing RainLexer.dll.
+	%SIGNTOOL% ..\Release\RainLexer.dll > BuildLog.txt
+	if not %ERRORLEVEL% == 0 echo   ERROR %ERRORLEVEL%: Signing RainLexer.dll failed. & goto END
+)
 
 set INSTALLER_NAME=RainLexer-%VERSION_MAJOR%.%VERSION_MINOR%.%VERSION_SUBMINOR%.exe
 
@@ -38,11 +45,21 @@ set INSTALLER_DEFINES=^
 	/DOUTFILE="%INSTALLER_NAME%"^
 	/DVERSION="%VERSION_MAJOR%.%VERSION_MINOR%.%VERSION_SUBMINOR%"
 
+echo * Building installer.
 "%MAKENSIS%" %INSTALLER_DEFINES% ..\Installer\Installer.nsi > "BuildLog.txt"
-if not %ERRORLEVEL% == 0 echo   ERROR %ERRORLEVEL%: Building installer failed & goto END
+if not %ERRORLEVEL% == 0 echo   ERROR %ERRORLEVEL%: Building installer failed. & goto END
 
-:: If we got here, build was successful so delete BuildLog.txt
+:: Sign installer.
+if not "%CERTFILE%" == "" (
+	echo * Signing installer.
+	%SIGNTOOL% %INSTALLER_NAME% > BuildLog.txt
+	if not %ERRORLEVEL% == 0 echo   ERROR %ERRORLEVEL%: Signing installer failed. & goto END
+)
+
+:: If we got here, build was successful so delete BuildLog.txt.
 if exist "BuildLog.txt" del "BuildLog.txt"
+
+echo * Build complete.
 
 :END
 echo.

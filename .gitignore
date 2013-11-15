@@ -1,6 +1,7 @@
 /ipch
 Debug
 Release
+Certificate.bat
 *.docstates
 *.exe
 *.opensdf
