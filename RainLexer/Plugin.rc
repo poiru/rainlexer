@@ -1,3 +1,4 @@
+#include "Version.h"
 #include <VerRsrc.h>
 
 /////////////////////////////////////////////////////////////////////////////
@@ -6,8 +7,7 @@
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,5,0
- FILEVERSION 1,1,5,0
+ FILEVERSION RAINLEXER_VERSION_RC
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS VS_FF_DEBUG
@@ -22,9 +22,9 @@ VS_VERSION_INFO VERSIONINFO
     {
         BLOCK "040904E4"
         {
-            VALUE "FileVersion", "1.1.5.0"
+            VALUE "FileVersion", RAINLEXER_VERSION_STRING
             VALUE "LegalCopyright", "© 2013 - Birunthan Mohanathas"
-            VALUE "ProductVersion", "1.1.5.0"
+            VALUE "ProductVersion", RAINLEXER_VERSION_STRING
         }
     }
     BLOCK "VarFileInfo"

@@ -22,8 +22,6 @@
 !include "WordFunc.nsh"
 !include "UAC.nsh"
 
-!define VERSION "1.1.5"
-
 Name "RainLexer ${VERSION}"
 VIAddVersionKey "ProductName" "RainLexer ${VERSION}"
 VIAddVersionKey "FileDescription" "RainLexer Installer"
@@ -32,7 +30,7 @@ VIAddVersionKey "FileVersion" "${VERSION}"
 VIProductVersion "${VERSION}.0"
 BrandingText " "
 SetCompressor /FINAL /SOLID lzma
-OutFile "RainLexer-${VERSION}.exe"
+OutFile "..\Build\RainLexer-${VERSION}.exe"
 Icon ".\Icon.ico"
 CRCCheck force
 RequestExecutionLevel user

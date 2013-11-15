@@ -17,6 +17,7 @@
 
 #include "StdAfx.h"
 #include "PluginInterface.h"
+#include "Version.h"
 
 namespace RainLexer {
 
@@ -138,7 +139,7 @@ void About()
 		g_NppWindow,
 		L"By Birunthan Mohanathas.\n"
 		L"poiru.github.com/rainlexer",
-		L"RainLexer 1.1.5",
+		RAINLEXER_TITLE,
 		MB_OK);
 }
 
