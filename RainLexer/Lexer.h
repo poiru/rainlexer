@@ -20,9 +20,7 @@
 
 #include "Scintilla.h"
 #include "ILexer.h"
-#include "PropSetSimple.h"
 #include "WordList.h"
-#include "LexerBase.h"
 #include "LexAccessor.h"
 #include "Accessor.h"
 #include "LexerModule.h"
@@ -31,16 +29,27 @@
 
 namespace RainLexer {
 
-class RainLexer :
-	public LexerBase
+class RainLexer final :
+	public ILexer
 {
 public:
 	RainLexer() {}
+	virtual ~RainLexer() {}
 
 	static ILexer* LexerFactory();
 
-	void SCI_METHOD Lex(unsigned int startPos, int length, int initStyle, IDocument* pAccess);
-	void SCI_METHOD Fold(unsigned int startPos, int length, int initStyle, IDocument* pAccess);
+	// ILexer
+	void SCI_METHOD Release() override;
+	int SCI_METHOD Version() const override;
+	const char* SCI_METHOD PropertyNames() override;
+	int SCI_METHOD PropertyType(const char* name) override;
+	const char* SCI_METHOD DescribeProperty(const char* name) override;
+	int SCI_METHOD PropertySet(const char* key, const char* val) override;
+	const char* SCI_METHOD DescribeWordListSets() override;
+	int SCI_METHOD WordListSet(int n, const char* wl) override;
+	void SCI_METHOD Lex(unsigned int startPos, int length, int initStyle, IDocument* pAccess) override;
+	void SCI_METHOD Fold(unsigned int startPos, int length, int initStyle, IDocument* pAccess) override;
+	void* SCI_METHOD PrivateCall(int operation, void* pointer) override;
 
 private:
 	enum TextState
@@ -70,8 +79,7 @@ private:
 		TC_EXTVARIABLE
 	};
 
-	static void Lexer(unsigned int startPos, int length, int initStyle, WordList* keywordlists[], Accessor& styler);
-	static void Folder(unsigned int startPos, int length, int initStyle, Accessor& styler);
+	WordList m_WordLists[6];
 };
 
 }	// namespace RainLexer

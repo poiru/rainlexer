@@ -25,29 +25,61 @@ ILexer* RainLexer::LexerFactory()
 	return new RainLexer();
 }
 
+//
+// ILexer
+//
+
+void SCI_METHOD RainLexer::Release() {
+	delete this;
+}
+
+int SCI_METHOD RainLexer::Version() const {
+	return lvOriginal;
+}
+
+const char* SCI_METHOD RainLexer::PropertyNames() {
+	return "";
+}
+
+int SCI_METHOD RainLexer::PropertyType(const char* name) {
+	return SC_TYPE_BOOLEAN;
+}
+
+const char* SCI_METHOD RainLexer::DescribeProperty(const char* name) {
+	return "";
+}
+
+int SCI_METHOD RainLexer::PropertySet(const char* key, const char* val) {
+	return -1;
+}
+
+const char* SCI_METHOD RainLexer::DescribeWordListSets() {
+	return "";
+}
+
+int SCI_METHOD RainLexer::WordListSet(int n, const char *wl) {
+	if (n < _countof(m_WordLists)) {
+		WordList wlNew;
+		wlNew.Set(wl);
+		if (m_WordLists[n] != wlNew) {
+			m_WordLists[n].Set(wl);
+			return 0;
+		}
+	}
+	return -1;
+}
+
 void SCI_METHOD RainLexer::Lex(unsigned int startPos, int length, int initStyle, IDocument* pAccess)
 {
-	Accessor styler(pAccess, &props);
-	Lexer(startPos, length, initStyle, keyWordLists, styler);
-	styler.Flush();
-}
+	Accessor styler(pAccess, nullptr);
 
-void SCI_METHOD RainLexer::Fold(unsigned int startPos, int length, int initStyle, IDocument* pAccess)
-{
-	Accessor styler(pAccess, &props);
-	Folder(startPos, length, initStyle, styler);
-	styler.Flush();
-}
-
-void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList* keywordlists[], Accessor& styler)
-{
 	char buffer[128];
-	const WordList& keywords = *keywordlists[0];
-	const WordList& numwords = *keywordlists[1];
-	const WordList& optwords = *keywordlists[2];
-	const WordList& options = *keywordlists[3];
-	const WordList& bangs = *keywordlists[4];
-	const WordList& variables = *keywordlists[5];
+	const WordList& keywords = m_WordLists[0];
+	const WordList& numwords = m_WordLists[1];
+	const WordList& optwords = m_WordLists[2];
+	const WordList& options = m_WordLists[3];
+	const WordList& bangs = m_WordLists[4];
+	const WordList& variables = m_WordLists[5];
 
 	length += startPos;
 	styler.StartAt(startPos);
@@ -380,10 +412,14 @@ void RainLexer::Lexer(unsigned int startPos, int length, int initStyle, WordList
 			break;
 		}
 	}
+
+	styler.Flush();
 }
 
-void RainLexer::Folder(unsigned int startPos, int length, int, Accessor& styler)
+void SCI_METHOD RainLexer::Fold(unsigned int startPos, int length, int initStyle, IDocument* pAccess)
 {
+	Accessor styler(pAccess, nullptr);
+
 	length += startPos;
 	int line = styler.GetLine(startPos);
 
@@ -403,6 +439,12 @@ void RainLexer::Folder(unsigned int startPos, int length, int, Accessor& styler)
 			++line;
 		}
 	}
+
+	styler.Flush();
+}
+
+void* SCI_METHOD RainLexer::PrivateCall(int operation, void* pointer) {
+	return nullptr;
 }
 
 //
