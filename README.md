@@ -1,6 +1,7 @@
 RainLexer adds syntax highlighting support for Rainmeter .ini configuration files to Notepad++. To download RainLexer, follow the [installation instructions](http://poiru.github.com/rainlexer).
 
-To build RainLexer, get the Notepad++ source distribution and place the `rainlexer` directory alongside the `PowerEditor` and `scintilla` directories. Then, open `rainlexer\RainLexer.sln` with Visual Studio 2012 (Update 1) to build.
+To build RainLexer, you will need [WinDDK 7.1](http://www.microsoft.com/en-us/download/details.aspx?id=11800). After you have it installed, make sure that the `WinDDK71Dir` entry in `Config.props` has the correct path.
+You can then build RainLexer by opening `RainLexer.sln`. Alternatively, you can run `Build\Build.bat` to build RainLexer and the installer.
 
 ---------
 

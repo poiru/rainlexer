@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)Config.props" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -86,7 +87,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>Exports.def</ModuleDefinitionFile>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>$(SolutionDir)..\WinDDK\7600.16385.1\lib\Crt\i386\msvcrt.lib;$(SolutionDir)..\WinDDK\7600.16385.1\lib\wxp\i386\msvcrt_winxp.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(WinDDK71Dir)lib\Crt\i386\msvcrt.lib;$(WinDDK71Dir)lib\wxp\i386\msvcrt_winxp.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
