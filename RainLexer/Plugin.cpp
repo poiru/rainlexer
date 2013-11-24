@@ -26,7 +26,7 @@ const int RAINMETER_QUERY_ID_SKINS_PATH = 4101;
 
 HWND g_RainmeterWindow = nullptr;
 HWND g_NppWindow = nullptr;
-std::wstring g_SkinsPath;
+WCHAR g_SkinsPath[MAX_PATH] = {0};
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -35,7 +35,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		COPYDATASTRUCT* cds = (COPYDATASTRUCT*)lParam;
 		if (cds->dwData == RAINMETER_QUERY_ID_SKINS_PATH)
 		{
-			g_SkinsPath = (WCHAR*)cds->lpData;
+			wcscpy_s(g_SkinsPath, (const WCHAR*)cds->lpData);
 		}
 
 		return TRUE;
@@ -71,7 +71,7 @@ bool GetRainmeter()
 				SendMessage(trayWindow, WM_QUERY_RAINMETER, RAINMETER_QUERY_ID_SKINS_PATH, (LPARAM)wnd);
 				DestroyWindow(wnd);
 
-				if (!g_SkinsPath.empty())
+				if (*g_SkinsPath)
 				{
 					g_RainmeterWindow = meterWindow;
 					return true;
@@ -96,26 +96,26 @@ void RefreshSkin()
 
 	if (ret)
 	{
-		const size_t skinsPathLen = g_SkinsPath.length();
+		const size_t skinsPathLen = wcslen(g_SkinsPath);
 		const size_t currentPathLen = wcslen(currentPath);
 
 		// Make sure the file is in the skins folder and that extension is .ini
-		if (wcsncmp(g_SkinsPath.c_str(), currentPath, skinsPathLen) == 0 &&
+		if (wcsncmp(g_SkinsPath, currentPath, skinsPathLen) == 0 &&
 			_wcsicmp(&currentPath[currentPathLen - 4], L".ini") == 0)
 		{
 			WCHAR* relativePath = &currentPath[skinsPathLen];
 			WCHAR* pos = wcsrchr(relativePath, L'\\');
-
 			if (pos)
 			{
-				std::wstring bang = L"!Refresh \"";
-				bang.append(relativePath, pos - relativePath);	// TODO FIXME
-				bang += L'"';
+				relativePath[pos - relativePath] = L'\0';
+				WCHAR buffer[512];
+				const int len = _snwprintf(
+					buffer, _countof(buffer), L"!Refresh \"%s\"", relativePath);
 
 				COPYDATASTRUCT cds;
 				cds.dwData = 1;
-				cds.cbData = (DWORD)(bang.length() + 1) * sizeof(WCHAR);
-				cds.lpData = (void*)bang.c_str();
+				cds.cbData = (DWORD)(len + 1) * sizeof(WCHAR);
+				cds.lpData = (void*)buffer;
 				SendMessage(g_RainmeterWindow, WM_COPYDATA, 0, (LPARAM)&cds);
 			}
 		}
