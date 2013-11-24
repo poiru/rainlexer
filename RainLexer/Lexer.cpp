@@ -458,12 +458,14 @@ int SCI_METHOD GetLexerCount()
 
 void SCI_METHOD GetLexerName(unsigned int index, char* name, int buflength)
 {
-	strncpy_s(name, buflength, "Rainmeter", _TRUNCATE);
+	strncpy(name, "Rainmeter", buflength);
+	name[buflength - 1] = '\0';
 }
 
 void SCI_METHOD GetLexerStatusText(unsigned int index, WCHAR* desc, int buflength)
 {
-	wcsncpy_s(desc, buflength, L"Rainmeter skin file", _TRUNCATE);
+	wcsncpy(desc, L"Rainmeter skin file", buflength);
+	desc[buflength - 1] = L'\0';
 }
 
 LexerFactoryFunction SCI_METHOD GetLexerFactory(unsigned int index)

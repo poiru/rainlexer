@@ -35,7 +35,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		COPYDATASTRUCT* cds = (COPYDATASTRUCT*)lParam;
 		if (cds->dwData == RAINMETER_QUERY_ID_SKINS_PATH)
 		{
-			wcscpy_s(g_SkinsPath, (const WCHAR*)cds->lpData);
+			wcsncpy(g_SkinsPath, (const WCHAR*)cds->lpData, _countof(g_SkinsPath));
+			g_SkinsPath[_countof(g_SkinsPath) - 1] = L'\0';
 		}
 
 		return TRUE;
@@ -111,6 +112,7 @@ void RefreshSkin()
 				WCHAR buffer[512];
 				const int len = _snwprintf(
 					buffer, _countof(buffer), L"!Refresh \"%s\"", relativePath);
+				buffer[_countof(buffer) - 1] = L'\0';
 
 				COPYDATASTRUCT cds;
 				cds.dwData = 1;
