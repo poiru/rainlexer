@@ -24,16 +24,7 @@
     <ClCompile Include="..\ThirdParty\Scintilla\lexlib\WordList.cxx">
       <Filter>Scintilla</Filter>
     </ClCompile>
-    <ClCompile Include="..\ThirdParty\Scintilla\lexlib\LexerSimple.cxx">
-      <Filter>Scintilla</Filter>
-    </ClCompile>
     <ClCompile Include="..\ThirdParty\Scintilla\lexlib\Accessor.cxx">
-      <Filter>Scintilla</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ThirdParty\Scintilla\lexlib\LexerModule.cxx">
-      <Filter>Scintilla</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ThirdParty\Scintilla\lexlib\PropSetSimple.cxx">
       <Filter>Scintilla</Filter>
     </ClCompile>
     <ClCompile Include="Lexer.cpp">

@@ -90,9 +90,6 @@
   <ItemGroup>
     <ClCompile Include="..\ThirdParty\Scintilla\lexlib\Accessor.cxx" />
     <ClCompile Include="..\ThirdParty\Scintilla\lexlib\LexerBase.cxx" />
-    <ClCompile Include="..\ThirdParty\Scintilla\lexlib\LexerModule.cxx" />
-    <ClCompile Include="..\ThirdParty\Scintilla\lexlib\LexerSimple.cxx" />
-    <ClCompile Include="..\ThirdParty\Scintilla\lexlib\PropSetSimple.cxx" />
     <ClCompile Include="..\ThirdParty\Scintilla\lexlib\WordList.cxx" />
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="Plugin.cpp" />
