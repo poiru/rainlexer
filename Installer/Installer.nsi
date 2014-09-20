@@ -259,10 +259,12 @@ FunctionEnd
 Section
 	XML::create
 	XML::load "$NppConfigPath\config.xml"
-	XML::select "//GUIConfig[@name='stylerTheme']"
-	${If} $2 != "0"
-		XML::getAttribute "path"
-		${GetFileName} $3 $NppThemeName
+	${If} $0 <> 0
+		XML::select "//GUIConfig[@name='stylerTheme']"
+		${If} $2 <> 0
+			XML::getAttribute "path"
+			${GetFileName} $3 $NppThemeName
+		${EndIf}
 	${EndIf}
 
 	${If} ${FileExists} "$NppConfigPath\userDefineLang.xml"
@@ -287,24 +289,25 @@ Section
 	${AndIf} ${FileExists} "$NppConfigPath\plugins\config\RainLexer.xml"
 		XML::create
 		XML::load "$NppConfigPath\plugins\config\RainLexer.xml"
+		${If} $0 <> 0
+			; For backwards compatibility
+			${ReadStyleVariables} "OPTION" "KEYWORD"
+			${ReadStyleVariables} "VALUE" "VALID OPTION"
+			${ReadStyleVariables} "INVALID_VALUE" "INVALID OPTION"
+			${ReadStyleVariables} "VARIABLE" "INT VARIABLE"
+			${ReadStyleVariables} "USER_VARIABLE" "EXT VARIABLE"
 
-		; For backwards compatibility
-		${ReadStyleVariables} "OPTION" "KEYWORD"
-		${ReadStyleVariables} "VALUE" "VALID OPTION"
-		${ReadStyleVariables} "INVALID_VALUE" "INVALID OPTION"
-		${ReadStyleVariables} "VARIABLE" "INT VARIABLE"
-		${ReadStyleVariables} "USER_VARIABLE" "EXT VARIABLE"
-
-		${ReadStyleVariables} "DEFAULT" "DEFAULT"
-		${ReadStyleVariables} "COMMENT" "COMMENT"
-		${ReadStyleVariables} "SECTION" "SECTION"
-		${ReadStyleVariables} "OPTION" "OPTION"
-		${ReadStyleVariables} "EQUALS" "EQUALS"
-		${ReadStyleVariables} "INVALID_VALUE" "INVALID VALUE"
-		${ReadStyleVariables} "VALUE" "VALUE"
-		${ReadStyleVariables} "BANG" "BANG"
-		${ReadStyleVariables} "VARIABLE" "VARIABLE"
-		${ReadStyleVariables} "USER_VARIABLE" "USER VARIABLE"
+			${ReadStyleVariables} "DEFAULT" "DEFAULT"
+			${ReadStyleVariables} "COMMENT" "COMMENT"
+			${ReadStyleVariables} "SECTION" "SECTION"
+			${ReadStyleVariables} "OPTION" "OPTION"
+			${ReadStyleVariables} "EQUALS" "EQUALS"
+			${ReadStyleVariables} "INVALID_VALUE" "INVALID VALUE"
+			${ReadStyleVariables} "VALUE" "VALUE"
+			${ReadStyleVariables} "BANG" "BANG"
+			${ReadStyleVariables} "VARIABLE" "VARIABLE"
+			${ReadStyleVariables} "USER_VARIABLE" "USER VARIABLE"
+		${EndIf}
 
 		${If} $NppThemeName == "Zenburn.xml"
 			File "..\Config\Zenburn\RainLexer.xml"
@@ -312,19 +315,21 @@ Section
 			File "..\Config\Default\RainLexer.xml"
 		${EndIf}
 
-		XML::create
-		XML::load "$NppConfigPath\plugins\config\RainLexer.xml"
-		${WriteStyleVariables} "DEFAULT" "DEFAULT"
-		${WriteStyleVariables} "COMMENT" "COMMENT"
-		${WriteStyleVariables} "SECTION" "SECTION"
-		${WriteStyleVariables} "OPTION" "OPTION"
-		${WriteStyleVariables} "EQUALS" "EQUALS"
-		${WriteStyleVariables} "INVALID_VALUE" "INVALID VALUE"
-		${WriteStyleVariables} "VALUE" "VALUE"
-		${WriteStyleVariables} "BANG" "BANG"
-		${WriteStyleVariables} "VARIABLE" "VARIABLE"
-		${WriteStyleVariables} "USER_VARIABLE" "USER VARIABLE"
-		XML::save "$NppConfigPath\plugins\config\RainLexer.xml"
+		${If} $DEFAULTfgColor != ""
+			XML::create
+			XML::load "$NppConfigPath\plugins\config\RainLexer.xml"
+			${WriteStyleVariables} "DEFAULT" "DEFAULT"
+			${WriteStyleVariables} "COMMENT" "COMMENT"
+			${WriteStyleVariables} "SECTION" "SECTION"
+			${WriteStyleVariables} "OPTION" "OPTION"
+			${WriteStyleVariables} "EQUALS" "EQUALS"
+			${WriteStyleVariables} "INVALID_VALUE" "INVALID VALUE"
+			${WriteStyleVariables} "VALUE" "VALUE"
+			${WriteStyleVariables} "BANG" "BANG"
+			${WriteStyleVariables} "VARIABLE" "VARIABLE"
+			${WriteStyleVariables} "USER_VARIABLE" "USER VARIABLE"
+			XML::save "$NppConfigPath\plugins\config\RainLexer.xml"
+		${EndIf}
 	${Else}
 		${If} $NppThemeName == "Zenburn.xml"
 			File "..\Config\Zenburn\RainLexer.xml"
@@ -336,13 +341,15 @@ Section
 	${If} ${FileExists} "$NppConfigPath\session.xml"
 		XML::create
 		XML::load "$NppConfigPath\session.xml"
-		${DoUntil} $2 = 0
-			XML::select "//File[@lang='MS INI file']"
-			${If} $2 <> 0
-				XML::setAttribute "lang" "Rainmeter"
-			${EndIf}
-		${Loop}
-		XML::save "$NppConfigPath\session.xml"
+		${If} $0 <> 0
+			${DoUntil} $2 = 0
+				XML::select "//File[@lang='MS INI file']"
+				${If} $2 <> 0
+					XML::setAttribute "lang" "Rainmeter"
+				${EndIf}
+			${Loop}
+			XML::save "$NppConfigPath\session.xml"
+		${EndIf}
 	${EndIf}
 SectionEnd
 
