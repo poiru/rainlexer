@@ -285,6 +285,7 @@ Section
 	SetOutPath "$NppConfigPath\plugins\config"
 	${If} $ResetStyleSettings <> 1
 	${AndIf} ${FileExists} "$NppConfigPath\plugins\config\RainLexer.xml"
+		XML::create
 		XML::load "$NppConfigPath\plugins\config\RainLexer.xml"
 
 		; For backwards compatibility
@@ -311,6 +312,7 @@ Section
 			File "..\Config\Default\RainLexer.xml"
 		${EndIf}
 
+		XML::create
 		XML::load "$NppConfigPath\plugins\config\RainLexer.xml"
 		${WriteStyleVariables} "DEFAULT" "DEFAULT"
 		${WriteStyleVariables} "COMMENT" "COMMENT"
@@ -332,6 +334,7 @@ Section
 	${EndIf}
 
 	${If} ${FileExists} "$NppConfigPath\session.xml"
+		XML::create
 		XML::load "$NppConfigPath\session.xml"
 		${DoUntil} $2 = 0
 			XML::select "//File[@lang='MS INI file']"
