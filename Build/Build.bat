@@ -5,7 +5,7 @@ set MAKENSIS=%PROGRAMFILES%\NSIS\MakeNSIS.exe
 
 set VERSION_MAJOR=1
 set VERSION_MINOR=1
-set VERSION_SUBMINOR=19
+set VERSION_SUBMINOR=20
 
 if not exist "%VCVARSALL%" echo ERROR: vcvarsall.bat not found & goto END
 call "%VCVARSALL%" x86 > nul
