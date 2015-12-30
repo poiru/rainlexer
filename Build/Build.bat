@@ -1,6 +1,6 @@
 @echo off
 
-set VCVARSALL=%VS120COMNTOOLS%..\..\VC\vcvarsall.bat
+set VCVARSALL=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat
 set MAKENSIS=%PROGRAMFILES%\NSIS\MakeNSIS.exe
 
 set VERSION_MAJOR=1
@@ -16,7 +16,6 @@ if not exist "%MAKENSIS%" echo ERROR: MakeNSIS.exe not found & goto END
 :NSISFOUND
 
 set MSBUILD="msbuild.exe" /nologo^
-	/p:PlatformToolset=v120_xp;VisualStudioVersion=12.0^
 	/p:Configuration=Release
 
 if exist "Certificate.bat" call "Certificate.bat" > nul
