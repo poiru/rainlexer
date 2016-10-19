@@ -1,6 +1,8 @@
 /ipch
-Debug
-Release
+/x32-Debug
+/x32-Release
+/x64-Debug
+/x64-Release
 Certificate.bat
 *.docstates
 *.exe

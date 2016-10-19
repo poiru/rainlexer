@@ -27,15 +27,23 @@ set SIGNTOOL="signtool.exe" sign /t http://time.certum.pl /f "%CERTFILE%" /p "%C
 >>"..\RainLexer\Version.h" echo #define RAINLEXER_VERSION_STRING "%VERSION_MAJOR%.%VERSION_MINOR%.%VERSION_SUBMINOR%.0"
 >>"..\RainLexer\Version.h" echo #define RAINLEXER_TITLE L"RainLexer %VERSION_MAJOR%.%VERSION_MINOR%.%VERSION_SUBMINOR%"
 
-echo * Building RainLexer.
+echo * Building 32-bit RainLexer.
 %MSBUILD% /t:rebuild /p:Platform=Win32 /v:q /m ..\RainLexer.sln
+if not %ERRORLEVEL% == 0 echo   ERROR %ERRORLEVEL%: Build failed & goto END
+
+echo * Building 64-bit RainLexer.
+%MSBUILD% /t:rebuild /p:Platform=x64 /v:q /m ..\RainLexer.sln
 if not %ERRORLEVEL% == 0 echo   ERROR %ERRORLEVEL%: Build failed & goto END
 
 :: Sign installer.
 if not "%CERTFILE%" == "" (
-	echo * Signing RainLexer.dll.
-	%SIGNTOOL% ..\Release\RainLexer.dll > BuildLog.txt
-	if not %ERRORLEVEL% == 0 echo   ERROR %ERRORLEVEL%: Signing RainLexer.dll failed. & goto END
+	echo * Signing binaries...
+
+	%SIGNTOOL% ..\x32-Release\RainLexer.dll > BuildLog.txt
+	if not %ERRORLEVEL% == 0 echo   ERROR %ERRORLEVEL%: Signing x32-Release\RainLexer.dll failed. & goto END
+
+  %SIGNTOOL% ..\x64-Release\RainLexer.dll > BuildLog.txt
+  if not %ERRORLEVEL% == 0 echo   ERROR %ERRORLEVEL%: Signing x64-Release\RainLexer.dll failed. & goto END
 )
 
 set INSTALLER_NAME=RainLexer-%VERSION_MAJOR%.%VERSION_MINOR%.%VERSION_SUBMINOR%.exe
