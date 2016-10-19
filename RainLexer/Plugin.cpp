@@ -93,7 +93,7 @@ void RefreshSkin()
 	if (!GetRainmeter()) return;
 
 	WCHAR currentPath[MAX_PATH];
-	BOOL ret = SendMessage(g_NppWindow, NPPM_GETFULLCURRENTPATH, MAX_PATH, (LPARAM)&currentPath);
+	BOOL ret = (BOOL)SendMessage(g_NppWindow, NPPM_GETFULLCURRENTPATH, MAX_PATH, (LPARAM)&currentPath);
 
 	if (ret)
 	{
