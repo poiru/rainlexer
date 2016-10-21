@@ -290,7 +290,13 @@ Section
 	Delete "$NppConfigPath\plugins\RainLexer.dll"
 
 	SetOutPath "$NppPath\plugins"
-	File "..\Release\RainLexer.dll"
+	StrCpy $0 "$NppPath\notepad++.exe"
+	System::Call "kernel32::GetBinaryType(t r0, *i .r1)"
+	${If} $1 = ${SCS_64BIT_BINARY}
+		File "..\x64-Release\RainLexer.dll"
+	${Else}
+		File "..\x32-Release\RainLexer.dll"
+	${EndIf}
 
 	SetOutPath "$NppConfigPath\plugins\config"
 	${If} $ResetStyleSettings <> 1
