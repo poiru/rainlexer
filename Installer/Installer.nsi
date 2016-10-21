@@ -24,6 +24,12 @@ Unicode true
 !include "WordFunc.nsh"
 !include "UAC.nsh"
 
+!ifndef VERSION
+ !define VERSION "0.0.0"
+!endif
+
+!define SCS_64BIT_BINARY 6
+
 Name "RainLexer ${VERSION}"
 VIAddVersionKey "ProductName" "RainLexer ${VERSION}"
 VIAddVersionKey "FileDescription" "RainLexer Installer"
