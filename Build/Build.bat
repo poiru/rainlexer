@@ -1,6 +1,6 @@
 @echo off
 
-set VCVARSALL=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat
+set VCVARSALL=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
 set MAKENSIS=%PROGRAMFILES%\NSIS\MakeNSIS.exe
 
 set VERSION_MAJOR=2
